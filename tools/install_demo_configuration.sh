@@ -176,7 +176,7 @@ echo "Elasticsearch lib dir: $ES_LIB_PATH"
 echo "Detected Elasticsearch Version: $ES_VERSION"
 echo "Detected Open Distro Security Version: $SECURITY_VERSION"
 
-if $SUDO_CMD grep --quiet -i opendistro_security "$ES_CONF_FILE"; then
+if $SUDO_CMD grep -i opendistro_security "$ES_CONF_FILE"; then
   echo "$ES_CONF_FILE seems to be already configured for Security. Quit."
   exit $skip_updates
 fi
@@ -364,14 +364,14 @@ echo "opendistro_security.check_snapshot_restore_write_privileges: true" | $SUDO
 echo 'opendistro_security.restapi.roles_enabled: ["all_access", "security_rest_api_access"]' | $SUDO_CMD tee -a "$ES_CONF_FILE" > /dev/null
 
 #cluster.routing.allocation.disk.threshold_enabled
-if $SUDO_CMD grep --quiet -i "^cluster.routing.allocation.disk.threshold_enabled" "$ES_CONF_FILE"; then
+if $SUDO_CMD grep -i "^cluster.routing.allocation.disk.threshold_enabled" "$ES_CONF_FILE"; then
 	: #already present
 else
     echo 'cluster.routing.allocation.disk.threshold_enabled: false' | $SUDO_CMD tee -a "$ES_CONF_FILE" > /dev/null
 fi
 
 #network.host
-if $SUDO_CMD grep --quiet -i "^network.host" "$ES_CONF_FILE"; then
+if $SUDO_CMD grep -i "^network.host" "$ES_CONF_FILE"; then
 	: #already present
 else
 	if [ "$cluster_mode" == 1 ]; then
@@ -380,14 +380,14 @@ else
 fi
 
 #discovery.zen.minimum_master_nodes
-if $SUDO_CMD grep --quiet -i "^discovery.zen.minimum_master_nodes" "$ES_CONF_FILE"; then
+if $SUDO_CMD grep -i "^discovery.zen.minimum_master_nodes" "$ES_CONF_FILE"; then
 	: #already present
 else
     echo "discovery.zen.minimum_master_nodes: 1" | $SUDO_CMD tee -a "$ES_CONF_FILE" > /dev/null
 fi
 
 #node.max_local_storage_nodes
-if $SUDO_CMD grep --quiet -i "^node.max_local_storage_nodes" "$ES_CONF_FILE"; then
+if $SUDO_CMD grep -i "^node.max_local_storage_nodes" "$ES_CONF_FILE"; then
 	: #already present
 else
     echo 'node.max_local_storage_nodes: 3' | $SUDO_CMD tee -a "$ES_CONF_FILE" > /dev/null
